@@ -88,8 +88,8 @@ class ChatInterface(QWidget):
         if not username:
             self.chat.append("\n<Please type a username before trying to send a message>")
         else:
-            message = self.message.text().replace(";","").strip()
-            messageforServer = username + ";" + message
+            message = self.message.text().replace("¬","").strip()
+            messageforServer = username + "¬" + message
             if message and messageforServer:
                 try:
                     server.send(messageforServer.encode("utf-8"))
