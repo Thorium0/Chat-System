@@ -1,4 +1,4 @@
-import socket, select, sys
+import socket, select, sys, ipaddress, netifaces
 from threading import Thread
 
 IP_address = "0.0.0.0"
@@ -11,7 +11,7 @@ server.listen(100)
 list_of_clients = []
 
 def clientthread(conn, addr):
-    conn.send(b"Welcome to this chatroom!\n")
+    conn.send(b"\nWelcome to this chatroom!\n")
     while True:
             try:
                 message = conn.recv(2048).decode('utf-8')
@@ -41,6 +41,8 @@ def remove(connection):
         list_of_clients.remove(connection)
 
 if __name__ == '__main__':
+    local_ip = netifaces.ifaddresses("wlo1")[2][0]["addr"]
+    print("Running on {}".format(local_ip))
     print("Ready for connections...")
     while True:
         conn, addr = server.accept()

@@ -71,8 +71,11 @@ class ChatInterface(QWidget):
         if IP_address:
             try:
                 server.connect((IP_address, Port))
-            except:
-                self.chat.append("\n<Unable to connect to server>")
+            except OSError as ex:
+                if ex.errno == 106: # Already connected error code
+                    self.chat.append("\n<You are already connected to this server>")
+                else:
+                    self.chat.append("\n<Unable to connect to server>")
             else:
                 Thread(target=self.handleConnection).start()
         else:
@@ -95,10 +98,6 @@ class ChatInterface(QWidget):
                 else:
                     self.chat.append("[{}]: {}".format(self.username.text(), message))
                     self.message.setText("")
-
-
-
-
 
 
 
